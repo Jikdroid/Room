@@ -26,19 +26,19 @@ import androidx.room.Update
 interface SleepDatabaseDao {
 
     @Insert
-    fun insert(night: SleepNight)
+    suspend fun insert(night: SleepNight)
 
     @Update
-    fun update(night: SleepNight)
+    suspend fun update(night: SleepNight)
 
     @Query("SELECT * FROM daily_sleep_quality_table WHERE nightId =:key")
-    fun get(key: Long): SleepNight?
+    suspend fun get(key: Long): SleepNight?
 
     @Query("DELETE FROM daily_sleep_quality_table")     // @DELETE 는 특정 엔트리를 지우는데 특화
-    fun clear()
+    suspend fun clear()
 
     @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC LIMIT 1")
-    fun getTonight(): SleepNight?
+    suspend fun getTonight(): SleepNight?
 
     @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC")
     fun getAllNights(): LiveData<List<SleepNight>>      // TODO: LiveData 는 Nullable 이 불가능해서 nullable 로 해주지 않은건가?
